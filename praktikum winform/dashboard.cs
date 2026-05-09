@@ -10,22 +10,46 @@ using System.Windows.Forms;
 
 namespace praktikum_winform
 {
-    public partial class dashboard: Form
+    public partial class dashboard : Form
     {
-        private List<User> listUser; 
+        private DatabaseHelper db = new DatabaseHelper();
         public dashboard(string username)
         {
             InitializeComponent();
-            listUser = new List<User>();
-            for (int i = 0; i < 5; i++)
-            {
-                User user = new User($"Subar {i}", 20, "Muncar");
-                listUser.Add(user);
-            }
-            LbDb.Text += username;
-            DgUser.DataSource = listUser;
+            this.FormClosed += (s, e) => Application.Exit();
+            LoadData();
         }
 
-        
+        private void LoadData()
+        {
+            DgUser.DataSource = db.GetAllUsers();
+        }
+
+        private void btnTambah_Click(object sender, EventArgs e)
+        {
+            Form3 formTambah = new Form3(null);
+            formTambah.ShowDialog();
+            LoadData();
+        }
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            User selected = (User)DgUser.CurrentRow.DataBoundItem;
+            Form3 formEdit = new Form3(selected);
+            formEdit.ShowDialog();
+            LoadData();
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            User selected = (User)DgUser.CurrentRow.DataBoundItem;
+            var Konfirmasi = MessageBox.Show(
+                $"Hapus user `{selected.nama}`",
+                "Konfirmasi", MessageBoxButtons.YesNo);
+            if (Konfirmasi == DialogResult.Yes)
+            {
+                db.DeleteUser(selected.id);
+                LoadData();
+            }
+        }
     }
 }

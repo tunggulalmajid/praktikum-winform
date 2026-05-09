@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace praktikum_winform
 {
-    internal class User
+    public class User
     {
+        public int id { get; set; }
         public string nama { get; set; }
         public int umur {  get; set; }
-        public string alamat {  get; set; }
+        public string asal {  get; set; }
 
-        public User(string nama, int umur, string alamat)
+        public User(int id, string nama, int umur, string asal)
         {
+            this.id = id;
             this.nama = nama;
             this.umur = umur;
-            this.alamat = alamat;
+            this.asal = asal;
         }
     }
 }
