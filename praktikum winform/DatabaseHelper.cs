@@ -9,7 +9,7 @@ namespace praktikum_winform
 {
     class DatabaseHelper
     {
-        private string connString = "Host=localhost;Port=5432;Database=winforms_db;Username=postgres;Password=admin123";
+        private string connString = "Host=localhost;Port=5432;Database=winforms_db;Username=postgres;Password=Gunungsari";
         public List<User> GetAllUsers()
         {
             List<User> list = new List<User>();

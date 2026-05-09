@@ -4,13 +4,15 @@ namespace praktikum_winform
 {
     public partial class Login : Form
     {
+        private FormUtama _induk;
         private string username;
         private string password;
-        public Login()
+        public Login(FormUtama induk)
         {
             InitializeComponent();
             username = "tunggul";
             password = "tunggul";
+            this._induk = induk;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -54,9 +56,7 @@ namespace praktikum_winform
             if (userInput == username && userPassword == password)
             {
                 MessageBox.Show("Login Berhasil", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dashboard dsb = new dashboard(userInput);
-                this.Hide();
-                dsb.Show();
+                _induk.BukaFormDiPanel(new dashboard(this._induk, userInput));
             }
             else
             {

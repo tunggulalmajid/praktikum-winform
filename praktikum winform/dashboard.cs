@@ -13,10 +13,12 @@ namespace praktikum_winform
     public partial class dashboard : Form
     {
         private DatabaseHelper db = new DatabaseHelper();
-        public dashboard(string username)
+        private FormUtama _induk;
+        public dashboard(FormUtama induk,string username)
         {
             InitializeComponent();
             this.FormClosed += (s, e) => Application.Exit();
+            this._induk = induk;
             LoadData();
         }
 
