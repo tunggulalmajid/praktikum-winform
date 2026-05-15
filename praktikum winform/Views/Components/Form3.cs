@@ -1,4 +1,7 @@
-﻿using System;
+﻿using praktikum_winform.Controllers;
+using praktikum_winform.Helpers;
+using praktikum_winform.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +15,8 @@ namespace praktikum_winform
 {
     public partial class Form3 : Form
     {
-        private DatabaseHelper db = new DatabaseHelper();
-        private User _user; // null jika mode tambah
-
+        private User _user;
+        UserController controller;
 
         public Form3(User user)
         {
@@ -22,29 +24,22 @@ namespace praktikum_winform
             _user = user;
 
 
-            if (_user != null) // mode EDIT, isi field dengan data lama
+            if (_user != null)
             {
                 txtNama.Text = _user.nama;
                 txtUmur.Text = _user.umur.ToString();
                 txtAsal.Text = _user.asal;
             }
+            controller = new UserController();
         }
 
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-            // Validasi sederhana
-            if (string.IsNullOrWhiteSpace(txtNama.Text))
-            {
-                MessageBox.Show("Nama tidak boleh kosong!");
-                return;
-            }
-
-
             if (_user == null) // TAMBAH
             {
                 User baru = new User(0, txtNama.Text, int.Parse(txtUmur.Text), txtAsal.Text);
-                db.AddUser(baru);
+                controller.AddUser(baru);
                 MessageBox.Show("User berhasil ditambahkan!");
             }
             else // EDIT
@@ -52,7 +47,7 @@ namespace praktikum_winform
                 _user.nama = txtNama.Text;
                 _user.umur = int.Parse(txtUmur.Text);
                 _user.asal = txtAsal.Text;
-                db.UpdateUser(_user);
+                controller.UpdateUser(_user);
                 MessageBox.Show("User berhasil diupdate!");
             }
 

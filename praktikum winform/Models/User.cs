@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace praktikum_winform
+namespace praktikum_winform.Models
 {
     public class User
     {

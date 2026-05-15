@@ -1,4 +1,6 @@
-﻿using System;
+﻿using praktikum_winform.Helpers;
+using praktikum_winform.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,24 +9,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using praktikum_winform.Controllers;
 
 namespace praktikum_winform
 {
     public partial class dashboard : Form
     {
-        private DatabaseHelper db = new DatabaseHelper();
+
+        UserController controller;
         private FormUtama _induk;
+
         public dashboard(FormUtama induk,string username)
         {
             InitializeComponent();
             this.FormClosed += (s, e) => Application.Exit();
             this._induk = induk;
+            controller = new UserController();
             LoadData();
         }
 
         private void LoadData()
         {
-            DgUser.DataSource = db.GetAllUsers();
+            DgUser.DataSource = controller.GetAllUser();
         }
 
         private void btnTambah_Click(object sender, EventArgs e)
@@ -49,7 +55,7 @@ namespace praktikum_winform
                 "Konfirmasi", MessageBoxButtons.YesNo);
             if (Konfirmasi == DialogResult.Yes)
             {
-                db.DeleteUser(selected.id);
+                controller.DeleteUser(selected.id);
                 LoadData();
             }
         }

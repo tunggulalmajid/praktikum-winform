@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Npgsql;
+using praktikum_winform.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Npgsql;
 
-namespace praktikum_winform
+namespace praktikum_winform.Models
 {
-    class DatabaseHelper
+    class UserContext
     {
-        private string connString = "Host=localhost;Port=5432;Database=winforms_db;Username=postgres;Password=Gunungsari";
         public List<User> GetAllUsers()
         {
             List<User> list = new List<User>();
-            using var conn = new NpgsqlConnection(connString);
+            using var conn = DatabaseHelper.GetConnection();
             conn.Open();
             using var cmd = new NpgsqlCommand("SELECT id, nama, umur, asal FROM users", conn);
             using var reader = cmd.ExecuteReader();
@@ -31,7 +31,7 @@ namespace praktikum_winform
 
         public void AddUser(User user)
         {
-            using var conn = new NpgsqlConnection(connString);
+            using var conn = DatabaseHelper.GetConnection();
             conn.Open();
             using var cmd = new NpgsqlCommand(
                 "INSERT INTO users (nama, umur, asal) VALUES (@nama, @umur, @asal)", conn);
@@ -43,7 +43,7 @@ namespace praktikum_winform
 
         public void UpdateUser(User user)
         {
-            using var conn = new NpgsqlConnection(connString);
+            using var conn = DatabaseHelper.GetConnection();
             conn.Open();
             using var cmd = new NpgsqlCommand(
                 "UPDATE users SET nama=@nama, umur=@umur, asal=@asal WHERE id=@id", conn);
@@ -56,11 +56,12 @@ namespace praktikum_winform
 
         public void DeleteUser(int id)
         {
-            using var conn = new NpgsqlConnection(connString);
+            using var conn = DatabaseHelper.GetConnection();
             conn.Open();
             using var cmd = new NpgsqlCommand("DELETE FROM users WHERE id=@id", conn);
             cmd.Parameters.AddWithValue("id", id);
             cmd.ExecuteNonQuery();
         }
+
     }
 }
